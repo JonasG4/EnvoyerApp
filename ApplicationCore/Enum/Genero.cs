@@ -7,6 +7,9 @@ namespace ApplicationCore.Enum
         [Display(Name = "Masculino")]
         Masculino,
         [Display(Name = "Femenino")]
-        Femenino
+        Femenino,
+        [Display(Name = "Indefinido")]
+        Indefinido
+
     }
 }

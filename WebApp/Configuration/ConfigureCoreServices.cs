@@ -5,6 +5,7 @@ using ApplicationCore.Services;
 using FluentValidation.AspNetCore;
 using Infraestructure.Data;
 using Infraestructure.Loggin;
+using Infraestructure.Services;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -18,14 +19,17 @@ namespace WebApp.Configuration
 
             services.AddSingleton<IUriComposer>(new UriComposer(configuration.Get<ApplicationSettings>()));
             services.AddScoped(typeof(IAppLogger<>), typeof(LoggerAdapter<>));
-
+            services.AddScoped<IFileSystem, WebFileSystem>();
             return services;
         }
 
         public static IServiceCollection AddValidators(this IServiceCollection services)
         {
             services.AddMvc()
-            .AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<AlumnoValidator>());
+            .AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<UserValidator>())
+            .AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<userAddressValidator>())
+            .AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<LoginUserValidator>());
+            
 
             return services;
         }
